@@ -2,7 +2,7 @@ import requests
 
 def generate_answer(query, context):
     try:
-        API_KEY = "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"   # ✅ MUST be in quotes
+        API_KEY = "********************************************************************"   
 
         prompt = f"""
 Answer the question based ONLY on the context.

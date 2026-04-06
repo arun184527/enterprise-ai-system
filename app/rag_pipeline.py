@@ -6,7 +6,7 @@ from app.reranker import rerank
 documents = []
 embeddings_list = []
 
-# 🔥 SMART CHUNKING WITH OVERLAP
+
 def chunk_text(text, chunk_size=300, overlap=50):
     chunks = []
     
@@ -21,7 +21,7 @@ def add_document(text):
     chunks = chunk_text(text)
 
     for chunk in chunks:
-        # 🔥 FILTER SMALL / NOISY CHUNKS
+        
         if len(chunk.strip()) < 50:
             continue
 
@@ -35,7 +35,7 @@ def search(query, k=5):
     if not embeddings_list:
         return "No documents uploaded yet."
 
-    # Embed query
+    
     query_embedding = get_embedding(query)
 
     embeddings_array = np.array(embeddings_list).astype('float32')
@@ -50,13 +50,13 @@ def search(query, k=5):
 
     retrieved_docs = [documents[i] for i in I[0]]
 
-    # 🔥 RERANK
+    
     top_docs = rerank(query, retrieved_docs)
 
-    # 🔥 CLEAN FINAL OUTPUT
+    
     combined = " ".join(top_docs)
 
-    # remove duplicate sentences
+    
     sentences = combined.split('.')
     unique_sentences = list(dict.fromkeys(sentences))
 
