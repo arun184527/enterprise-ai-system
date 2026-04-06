@@ -2,7 +2,7 @@ import gradio as gr
 import requests
 import os
 
-# 🔥 USE ENV VARIABLE (IMPORTANT FOR AWS)
+#  USE ENV VARIABLE (IMPORTANT FOR AWS)
 BACKEND_URL = os.getenv("BACKEND_URL", "http://127.0.0.1:8000")
 
 UPLOAD_API = f"{BACKEND_URL}/upload/"
@@ -11,7 +11,7 @@ QUERY_API = f"{BACKEND_URL}/query/"
 SUPPORTED_EXTS = (".pdf", ".txt", ".json", ".md", ".csv")
 
 
-# 📂 UPLOAD FILES + FOLDER
+#  UPLOAD FILES + FOLDER
 def upload_files(files, folders):
     all_files = []
 
@@ -22,7 +22,7 @@ def upload_files(files, folders):
         all_files.extend(folders)
 
     if not all_files:
-        return "❌ Please upload files or folders."
+        return " Please upload files or folders."
 
     success_count = 0
 
@@ -45,18 +45,18 @@ def upload_files(files, folders):
                     success_count += 1
 
         except Exception as e:
-            return f"❌ Upload error: {str(e)}"
+            return f" Upload error: {str(e)}"
 
     if success_count == 0:
-        return "❌ No valid files uploaded."
+        return " No valid files uploaded."
 
-    return f"✅ {success_count} files uploaded successfully!"
+    return f" {success_count} files uploaded successfully!"
 
 
-# 💬 CHAT
+#  CHAT
 def chat_fn(message):
     if not message.strip():
-        return "❌ Enter a question."
+        return " Enter a question."
 
     try:
         response = requests.get(
@@ -67,16 +67,16 @@ def chat_fn(message):
         if response.status_code == 200:
             return response.json()["answer"]
 
-        return f"❌ Error: {response.text}"
+        return f" Error: {response.text}"
 
     except Exception as e:
-        return f"❌ Connection error: {str(e)}"
+        return f" Connection error: {str(e)}"
 
 
-# 🎨 UI
+#  UI
 with gr.Blocks(theme=gr.themes.Soft()) as demo:
 
-    gr.Markdown("# 🚀 Enterprise AI Knowledge Assistant")
+    gr.Markdown("#  Enterprise AI Knowledge Assistant")
     gr.Markdown("Upload files or folders and chat with your documents.")
 
     with gr.Row():
@@ -84,7 +84,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
         # LEFT SIDE
         with gr.Column(scale=1):
 
-            gr.Markdown("## 📂 Upload")
+            gr.Markdown("##  Upload")
 
             file_input = gr.File(file_count="multiple", label="Upload Files")
 
@@ -105,7 +105,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
         # RIGHT SIDE
         with gr.Column(scale=2):
 
-            gr.Markdown("## 💬 Chat")
+            gr.Markdown("##  Chat")
 
             query_input = gr.Textbox(
                 label="Ask Question",
@@ -132,6 +132,6 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
             )
 
 
-# 🚀 RUN
+#  RUN
 if __name__ == "__main__":
     demo.launch(server_name="0.0.0.0", server_port=7860)

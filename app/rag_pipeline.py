@@ -1,7 +1,6 @@
 import faiss
 import numpy as np
 from app.embeddings import get_embedding
-from app.reranker import rerank
 
 documents = []
 embeddings_list = []
@@ -31,7 +30,7 @@ def add_document(text):
         embeddings_list.append(embedding)
 
 
-def search(query, k=5):
+def search(query, k=6):
     if not embeddings_list:
         return "No documents uploaded yet."
 
@@ -51,10 +50,8 @@ def search(query, k=5):
     retrieved_docs = [documents[i] for i in I[0]]
 
     
-    top_docs = rerank(query, retrieved_docs)
-
     
-    combined = " ".join(top_docs)
+    combined = " ".join(retrieved_docs)
 
     
     sentences = combined.split('.')
