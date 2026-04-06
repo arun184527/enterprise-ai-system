@@ -2,7 +2,7 @@ import requests
 
 def generate_answer(query, context):
     try:
-        API_KEY = "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"   
+        API_KEY = "********************************************************************"   
 
 
 
