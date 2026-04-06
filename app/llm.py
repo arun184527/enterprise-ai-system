@@ -1,38 +1,39 @@
 import requests
-API_KEY = "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"
+
 def generate_answer(query, context):
-    prompt = f"""
-    Answer the question based on the context below.
+    try:
+        API_KEY = "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"   # ✅ MUST be in quotes
 
-    Context:
-    {context}
+        prompt = f"""
+Answer the question based ONLY on the context.
 
-    Question:
-    {query}
+Context:
+{context}
 
-    Give a clear and concise answer.
-    """
+Question:
+{query}
+"""
 
-    response = requests.post(
-        url="https://openrouter.ai/api/v1/chat/completions",
-        headers={
-            "Authorization": f"Bearer {API_KEY}",
-            "Content-Type": "application/json",
-            "HTTP-Referer": "http://localhost",
-            "X-Title": "AI Project"
-        },
-        json={
-            "model": "openai/gpt-3.5-turbo",  # ✅ GUARANTEED WORKING
-            "messages": [
-                {"role": "user", "content": prompt}
-            ]
-        }
-    )
+        response = requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": "meta-llama/llama-3-8b-instruct",
+                "messages": [
+                    {"role": "user", "content": prompt}
+                ]
+            }
+        )
 
-    data = response.json()
-    print("DEBUG:", data)  # keep this for now
+        data = response.json()
 
-    if "choices" not in data:
-        return f"LLM ERROR: {data}"
+        if "choices" not in data:
+            return f"LLM ERROR: {data}"
 
-    return data['choices'][0]['message']['content']
+        return data["choices"][0]["message"]["content"]
+
+    except Exception as e:
+        return f"LLM ERROR: {str(e)}"
